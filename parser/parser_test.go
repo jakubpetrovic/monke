@@ -1,17 +1,17 @@
 package parser
 
 import (
-	"testing"
 	"monkey/ast"
 	"monkey/lexer"
+	"testing"
 )
 
 func TestLetStatements(t *testing.T) {
 	input := `
-let x 5;
-let y = 10;
-let foobar = 838383;
-`
+	let x 5;
+	let = 10;
+	let 838383;
+	`
 	l := lexer.New(input)
 	p := New(l)
 
@@ -31,7 +31,7 @@ let foobar = 838383;
 		{"y"},
 		{"foobar"},
 	}
-	
+
 	for i, tt := range tests {
 		stmt := program.Statements[i]
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
@@ -42,7 +42,7 @@ let foobar = 838383;
 
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	if s.TokenLiteral() != "let" {
-		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())	
+		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
 		return false
 	}
 

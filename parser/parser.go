@@ -1,22 +1,22 @@
 package parser
 
 import (
+	"fmt"
 	"monkey/ast"
 	"monkey/lexer"
 	"monkey/token"
-	"fmt"
 )
 
 type Parser struct {
-	l *lexer.Lexer
-	curToken token.Token
+	l         *lexer.Lexer
+	curToken  token.Token
 	peekToken token.Token
-	errors []string
+	errors    []string
 }
 
-func New(l *lexer.Lexer) *Parser{
+func New(l *lexer.Lexer) *Parser {
 	p := &Parser{
-		l: l,
+		l:      l,
 		errors: []string{},
 	}
 	p.nextToken()
@@ -24,7 +24,7 @@ func New(l *lexer.Lexer) *Parser{
 	return p
 }
 
-func (p *Parser) nextToken(){
+func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
 	p.peekToken = p.l.NextToken()
 }
@@ -62,15 +62,19 @@ func (p *Parser) parseStatement() ast.Statement {
 }
 
 func (p *Parser) parseLetStatement() *ast.LetStatement {
-	stmt := &ast.LetStatement{ Token: p.curToken }
+	stmt := &ast.LetStatement{Token: p.curToken}
 
-	if !p.expectPeek(token.IDENT){
+	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
 
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
-	for !p.curTokenIs(token.SEMICOLON){
+	if !p.expectPeek(token.ASSIGN) {
+		return nil
+	}
+
+	for !p.curTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
 
