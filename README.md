@@ -1,5 +1,6 @@
-# interpreter-in-go
+# Monke
 
-## features to implement
+Monkey programming language interpreter implementation based on a book https://interpreterbook.com/ 
 
-- support unicode and emojis
+## Additions
+- The lost chapter https://interpreterbook.com/lost/
